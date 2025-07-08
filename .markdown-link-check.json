@@ -1,0 +1,12 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://github.com"
+    }
+  ],
+  "timeout": "10s",
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [200, 206]
+}

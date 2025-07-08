@@ -1,0 +1,29 @@
+{
+  "name": "playground-devops",
+  "version": "1.0.0",
+  "description": "Playground project for testing shift-left DevOps practices",
+  "private": true,
+  "scripts": {
+    "lint": "markdownlint src/ docs/ *.md",
+    "lint:fix": "markdownlint src/ docs/ *.md --fix",
+    "test:links": "markdown-link-check src/*.md docs/*.md *.md",
+    "test": "npm run lint && npm run test:links",
+    "ci": "npm run test"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0",
+    "markdown-link-check": "^3.11.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "devops",
+    "shift-left",
+    "containers",
+    "github-actions",
+    "markdown"
+  ],
+  "author": "DevOps Team",
+  "license": "MIT"
+}
