@@ -144,8 +144,23 @@ The CI/CD pipeline runs on:
 5. Submit a pull request
 
 ## 📚 Documentation
-- [DevOps Practices](src/devops.md) - Comprehensive guide to our DevOps approach
-- [Main Documentation](src/main.md) - Project main documentation
+
+### 🚀 Quick Start
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - **⚡ Essential commands and workflow**
+
+### 🏗️ System Architecture & How It Works
+- **[System Architecture](docs/SYSTEM_ARCHITECTURE.md)** - **📖 Complete system documentation**
+  - Container-first architecture details
+  - Multi-stage build system
+  - 100% environment parity explanation
+  - GitHub Actions pipeline breakdown
+  - Quality gates and security implementation
+  - Daily workflow examples
+
+### 📋 Implementation Guides
+- [DevOps Practices](src/devops.md) - DevOps approach and tools
+- [Shift-Left Strategy](docs/shift_left_strategy_canvas.md) - Strategic implementation guide
+- [Main Documentation](src/main.md) - Project overview
 
 ## 🏷️ License
 This project is for educational and testing purposes.
