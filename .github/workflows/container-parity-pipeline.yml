@@ -170,10 +170,21 @@ jobs:
     name: 🚀 Deployment Readiness
     runs-on: ubuntu-latest
     needs: [quality-checks, parity-validation, security-scan]
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/feature/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Check deployment conditions
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "🚀 Main branch detected - Running full deployment readiness check"
+            DEPLOY_READY=true
+          else
+            echo "🔍 Feature branch detected - Running deployment validation only"
+            DEPLOY_READY=false
+          fi
+          echo "DEPLOY_READY=$DEPLOY_READY" >> $GITHUB_ENV
 
       - name: Build production container
         run: |
@@ -182,8 +193,18 @@ jobs:
 
       - name: Verify production readiness
         run: |
-          echo "✅ All stages passed! Ready for deployment."
+          echo "✅ All pipeline stages passed successfully!"
           echo "🎯 Environment parity confirmed between local and CI"
           echo "🔒 Security scans completed"
           echo "📝 Documentation validated"
           echo "🚀 Production container built successfully"
+          
+          if [[ "${{ env.DEPLOY_READY }}" == "true" ]]; then
+            echo ""
+            echo "🎯 READY FOR PRODUCTION DEPLOYMENT!"
+            echo "All quality gates passed on main branch."
+          else
+            echo ""
+            echo "🔍 Feature branch validation complete."
+            echo "Merge to main branch to enable production deployment."
+          fi
