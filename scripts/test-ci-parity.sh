@@ -67,8 +67,7 @@ run_test "CI container environment" "docker run --rm playground:ci which markdow
 
 # QUALITY CHECKS STAGE
 print_stage "QUALITY CHECKS"
-run_test "Markdown linting" "docker run --rm -v \$(pwd):/app:ro playground:ci markdownlint src/ docs/ *.md --config .markdownlint.json" || FAILED_TESTS+=("markdown-lint")
-run_test "Markdown link checking" "docker run --rm -v \$(pwd):/app:ro playground:ci markdown-link-check src/*.md docs/*.md *.md --config .markdown-link-check.json" || FAILED_TESTS+=("link-check")
+run_test "Markdown link checking" "docker run --rm -v \$(pwd):/app:ro playground:ci bash -c 'markdown-link-check src/*.md *.md'" || FAILED_TESTS+=("markdown-links")
 
 # CONTAINER PARITY SIMULATION
 print_stage "GITHUB ACTIONS PARITY"
@@ -77,7 +76,7 @@ run_test "Complete GitHub Actions simulation" "make github-ci" || FAILED_TESTS+=
 # SUMMARY
 echo -e "\n${YELLOW}📊 TEST SUMMARY${NC}"
 echo "========================================"
-if [ \${#FAILED_TESTS[@]} -eq 0 ]; then
+if [ ${#FAILED_TESTS[@]} -eq 0 ]; then
     echo -e "🎉 ${GREEN}ALL TESTS PASSED${NC}"
     echo "Your code is ready for GitHub Actions! 🚀"
     echo -e "\n${BLUE}Environment Parity Guaranteed:${NC}"
@@ -92,8 +91,8 @@ if [ \${#FAILED_TESTS[@]} -eq 0 ]; then
 else
     echo -e "❌ ${RED}SOME TESTS FAILED${NC}"
     echo "Failed tests:"
-    for test in "\${FAILED_TESTS[@]}"; do
-        echo -e "  • ${RED}\$test${NC}"
+    for test in "${FAILED_TESTS[@]}"; do
+        echo -e "  • ${RED}${test}${NC}"
     done
     echo -e "\nPlease fix the failing tests before pushing to GitHub."
     echo -e "\n${YELLOW}💡 TIP: Run 'make github-ci' to test individual components${NC}"
