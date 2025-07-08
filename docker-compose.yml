@@ -1,0 +1,74 @@
+# Docker Compose for Playground Project - GitHub Actions Parity
+version: '3.8'
+
+services:
+  # =============================================================================
+  # Main Development Service - Identical to GitHub Actions environment
+  # =============================================================================
+  dev:
+    build:
+      context: .
+      target: development
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+    volumes:
+      # Mount source code with cached consistency for better performance
+      - .:/app:cached
+      # Persistent cache for npm to speed up dependency installation
+      - npm-cache:/tmp/npm-cache
+      # Persistent cache for tools
+      - tool-cache:/app/.cache
+    environment:
+      # Development-specific environment variables
+      - NODE_ENV=development
+      - DISABLE_TELEMETRY=1
+      - CI=false
+    working_dir: /app
+    # Interactive mode for development
+    stdin_open: true
+    tty: true
+    # Keep container running for development
+    command: bash
+
+  # =============================================================================
+  # CI Environment - Mirrors GitHub Actions exactly
+  # =============================================================================
+  ci:
+    build:
+      context: .
+      target: ci
+    volumes:
+      # Read-only mount prevents CI from modifying source
+      - .:/app:ro
+      # Write access for test results
+      - ./test-results:/app/test-results
+    environment:
+      - NODE_ENV=test
+      - CI=true
+      - DISABLE_TELEMETRY=1
+    working_dir: /app
+    command: echo "CI environment ready"
+
+  # =============================================================================
+  # Test Runner Service - For running specific tests
+  # =============================================================================
+  test:
+    build:
+      context: .
+      target: ci
+    volumes:
+      - .:/app:ro
+      - ./test-results:/app/test-results
+    environment:
+      - NODE_ENV=test
+      - CI=true
+    working_dir: /app
+
+# =============================================================================
+# Volume Configuration
+# =============================================================================
+volumes:
+  npm-cache:
+    driver: local
+  tool-cache:
+    driver: local
