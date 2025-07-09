@@ -350,21 +350,21 @@ help: ## Show available commands
     @echo "  clean          Clean up containers and volumes"
 
 setup: ## Setup complete development environment
-	@echo "🔧 Setting up Heimdall development environment..."
-	@docker-compose build dev
-	@mkdir -p test-results
-	@echo "✅ Environment ready! Run 'make dev' to start development."
+    @echo "🔧 Setting up Heimdall development environment..."
+    @docker-compose build dev
+    @mkdir -p test-results
+    @echo "✅ Environment ready! Run 'make dev' to start development."
 
 # =============================================================================
 # Development Commands
 # =============================================================================
 
 dev: ## Start interactive development container
-	@echo "🚀 Starting development container..."
-	@echo "💡 You are now in the containerized development environment"
-	@echo "💡 All tools (poetry, pytest, ruff, etc.) are available"
-	@echo "💡 Type 'exit' to leave the container"
-	@docker-compose run --rm dev
+    @echo "🚀 Starting development container..."
+    @echo "💡 You are now in the containerized development environment"
+    @echo "💡 All tools (poetry, pytest, ruff, etc.) are available"
+    @echo "💡 Type 'exit' to leave the container"
+    @docker-compose run --rm dev
 
 test: ## Run tests in container environment
     @echo "🧪 Running tests in container..."
@@ -854,13 +854,13 @@ Provide clear, step-by-step instructions for team members to adopt the container
    make setup
    ```
 
-2. **Start Development**
+1. **Start Development**
    ```bash
    make dev
    # You're now in the containerized environment
    ```
 
-3. **Inside the Container - Run These Commands:**
+1. **Inside the Container - Run These Commands:**
    ```bash
    # Install dependencies
    poetry install

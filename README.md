@@ -1,4 +1,4 @@
-# Playground - Shift-Left DevOps with Container Parity
+# playground
 
 Testing playground for CI/CD with **100% Environment Parity** between local development and GitHub Actions 🚀
 
