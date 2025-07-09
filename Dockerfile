@@ -42,10 +42,12 @@ RUN if [ -f package.json ]; then npm ci --only=production; fi
 FROM base AS development
 
 # Install all dependencies including dev dependencies
-RUN if [ -f package.json ]; then npm ci; fi    # Install global development tools that match GitHub Actions
-    RUN npm install -g \
-        markdownlint-cli@0.37.0 \
-        markdown-link-check@3.11.2
+RUN if [ -f package.json ]; then npm ci; fi
+
+# Install global development tools that match GitHub Actions
+RUN npm install -g \
+    markdownlint-cli@0.37.0 \
+    markdown-link-check@3.11.2
 
 # Copy all project files
 COPY . .
